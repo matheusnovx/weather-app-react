@@ -1,9 +1,7 @@
 import { WeatherRepository } from '../WeatherRepository';
-import { StorageService } from '../StorageService';
 import api from '../api';
 
 jest.mock('../api');
-jest.mock('../StorageService');
 
 describe('WeatherRepository', () => {
   afterEach(() => {
@@ -20,39 +18,31 @@ describe('WeatherRepository', () => {
     expect(result).toEqual(mockData);
   });
 
-  it('should save data to cache on successful forecast fetch', async () => {
+  it('should fetch forecast and append lastUpdated timestamp', async () => {
     const mockForecast = { location: { name: 'London' }, current: {}, forecast: { forecastday: [] } };
     (api.get as jest.Mock).mockResolvedValueOnce({ data: mockForecast });
 
+    const before = Date.now();
     const result = await WeatherRepository.getForecast('London', 3);
+    const after = Date.now();
 
-    expect(api.get).toHaveBeenCalledWith('/forecast.json', expect.anything());
-    expect(StorageService.saveWeatherData).toHaveBeenCalledWith('London', expect.objectContaining({ location: { name: 'London' } }));
+    expect(api.get).toHaveBeenCalledWith('/forecast.json', {
+      params: {
+        q: 'London',
+        days: 3,
+        aqi: 'no',
+        alerts: 'no'
+      }
+    });
+    
     expect(result.location.name).toBe('London');
+    expect(result.lastUpdated).toBeGreaterThanOrEqual(before);
+    expect(result.lastUpdated).toBeLessThanOrEqual(after);
   });
 
-  it('should fallback to cache on network failure', async () => {
-    const mockCachedForecast = { location: { name: 'London Cached' }, current: {}, forecast: { forecastday: [] } };
-    
-    // Simulate network failure
-    (api.get as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
-    
-    // Simulate cache hit
-    (StorageService.getWeatherData as jest.Mock).mockResolvedValueOnce(mockCachedForecast);
-
-    const result = await WeatherRepository.getForecast('London', 3);
-
-    expect(api.get).toHaveBeenCalled();
-    expect(StorageService.getWeatherData).toHaveBeenCalledWith('London');
-    expect(result).toEqual(mockCachedForecast);
-  });
-
-  it('should throw error if network fails and cache is empty', async () => {
-    // Simulate network failure
-    (api.get as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
-    
-    // Simulate cache miss
-    (StorageService.getWeatherData as jest.Mock).mockResolvedValueOnce(null);
+  it('should propagate errors from the api directly', async () => {
+    const networkError = new Error('Network error');
+    (api.get as jest.Mock).mockRejectedValueOnce(networkError);
 
     await expect(WeatherRepository.getForecast('London', 3)).rejects.toThrow('Network error');
   });
