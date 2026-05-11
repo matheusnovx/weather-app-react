@@ -58,12 +58,6 @@ A aplicação foi construída visando o padrão **Clean Architecture**, onde a r
 ## Limitações e Observações
 
 *   **Aviso de Dispositivo Físico Apple**: O código foi exaustivamente testado em simuladores oficiais do iOS (Xcode). Contudo, *o aplicativo não foi submetido a testes diretos em um dispositivo físico da Apple*.
-*   **WeatherAPI Rate Limiting**: A busca dinâmica de cidades utiliza o *tier* gratuito da WeatherAPI. Digitações extremamente rápidas e excessivas podem esbarrar no *Rate Limit* (Erro 429). A arquitetura lida graciosamente com isso evitando travamentos, mas a busca pode pausar temporariamente se os limites da chave forem ultrapassados.
-
-## Próximos Passos (Backlog)
-
-1.  **Global Error Boundary**: Implementar um `ErrorBoundary` encapsulando a árvore raiz (no `_layout.tsx`) para exibir uma tela de falha amigável e blindar o usuário caso ocorra uma exceção de Javascript síncrona não mapeada.
-2.  **FlashList (Shopify)**: Se o volume de dias de previsão ou o detalhamento crescer enormemente nas próximas sprints, deve-se substituir a virtualização nativa (`FlatList`) do `<ForecastList>` pelo `@shopify/flash-list` para prender os *frames* estritos a 60 FPS.
-3.  **Localização Internacional (i18n)**: Integrar a biblioteca `react-i18next` para detectar o idioma do dispositivo no momento da instalação, traduzindo automaticamente as descrições de clima fornecidas pela API e as mensagens da UI estática.
+*   **WeatherAPI Rate Limiting**: A busca dinâmica de cidades utiliza o *tier* gratuito da WeatherAPI. Digitações extremamente rápidas e excessivas podem esbarrar no *Rate Limit* (Erro 429).
 
 ---
