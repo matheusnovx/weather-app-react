@@ -21,10 +21,9 @@ export default function DetailsScreen() {
   const chartData = useMemo(() => {
     if (!selectedDay) return [];
     return selectedDay.hour.map((h, index) => {
-      // Extract hour from "YYYY-MM-DD HH:MM"
-      const timeString = h.time.split(' ')[1]; 
-      const isEven = index % 3 === 0; // Show label every 3 hours to avoid clutter
-      
+      const timeString = h.time.split(' ')[1];
+      const isEven = index % 3 === 0;
+
       return {
         value: h.temp_c,
         label: isEven ? timeString : '',
@@ -46,9 +45,9 @@ export default function DetailsScreen() {
     return (
       <SafeAreaView style={styles.container}>
         <Stack.Screen options={{ title: 'Error' }} />
-        <ErrorView 
-          message="Could not load the details for this day." 
-          onRetry={() => router.back()} 
+        <ErrorView
+          message="Could not load the details for this day."
+          onRetry={() => router.back()}
         />
       </SafeAreaView>
     );
