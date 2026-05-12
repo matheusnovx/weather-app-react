@@ -80,6 +80,9 @@ export function SearchBar() {
             onBlur={() => {
               setTimeout(() => setIsFocused(false), 200);
             }}
+            autoCorrect={false}
+            spellCheck={false}
+            autoCapitalize="words"
           />
           {isLoading && (
             <ActivityIndicator style={styles.loader} color="#3B82F6" />

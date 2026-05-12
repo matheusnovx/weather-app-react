@@ -24,6 +24,7 @@ export default function Layout() {
     >
       <Stack>
         <Stack.Screen name="index" options={{ title: 'How is the weather?' }} />
+        <Stack.Screen name="details/[date]" options={{ title: 'Forecast Details', headerBackTitle: 'Back' }} />
       </Stack>
     </PersistQueryClientProvider>
   );
