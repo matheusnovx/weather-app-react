@@ -2,23 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-interface Props {
+interface ErrorViewProps {
   message: string;
   onRetry: () => void;
 }
 
-export function ErrorView({ message, onRetry }: Props) {
-  return (
-    <View style={styles.container}>
-      <Ionicons name="warning-outline" size={64} color="#efe444ff" style={styles.icon} />
-      <Text style={styles.title}>Oops!</Text>
-      <Text style={styles.message}>{message}</Text>
-      <TouchableOpacity style={styles.button} onPress={onRetry}>
-        <Text style={styles.buttonText}>Try Again</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
+export const ErrorView = ({ message, onRetry }: ErrorViewProps) => (
+  <View style={styles.container}>
+    <Ionicons name="warning-outline" size={64} color="#efe444ff" style={styles.icon} />
+    <Text style={styles.title}>Oops!</Text>
+    <Text style={styles.message}>{message}</Text>
+    <TouchableOpacity style={styles.button} onPress={onRetry}>
+      <Text style={styles.buttonText}>Try Again</Text>
+    </TouchableOpacity>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {

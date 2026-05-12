@@ -3,20 +3,20 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { CurrentWeather, LocationData } from '../services/WeatherRepository';
 
-interface Props {
+interface WeatherCardProps {
   current: CurrentWeather;
   location: LocationData;
   date: string;
 }
 
-export function WeatherCard({ current, location, date }: Props) {
+export const WeatherCard = ({ current, location, date }: WeatherCardProps) => {
   const router = useRouter();
 
   return (
     <TouchableOpacity
       style={styles.container}
       activeOpacity={0.8}
-      onPress={() => router.push(`/details/${date}` as any)}
+      onPress={() => router.push({ pathname: '/details/[date]', params: { date } })}
     >
       <Text style={styles.locationText}>{location.name}, {location.region}</Text>
       <View style={styles.mainInfo}>

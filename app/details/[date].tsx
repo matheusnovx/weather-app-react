@@ -66,7 +66,7 @@ export default function DetailsScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <Text style={styles.title}>{dayName}</Text>
-          <Text style={styles.subtitle}>Hourly Temperature Variation</Text>
+          <Text style={styles.subtitle}>Hourly Forecast</Text>
         </View>
 
         <View style={styles.chartContainer}>

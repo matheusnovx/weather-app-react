@@ -4,11 +4,11 @@ import { useRouter } from 'expo-router';
 import { WeatherDay } from '../services/WeatherRepository';
 import { Ionicons } from '@expo/vector-icons';
 
-interface Props {
+interface ForecastListProps {
   forecastDays: WeatherDay[];
 }
 
-export function ForecastList({ forecastDays }: Props) {
+export const ForecastList = ({ forecastDays }: ForecastListProps) => {
   const router = useRouter();
 
   return (
@@ -24,7 +24,7 @@ export function ForecastList({ forecastDays }: Props) {
             <TouchableOpacity
               key={item.date}
               style={styles.itemContainer}
-              onPress={() => router.push(`/details/${item.date}` as any)}
+              onPress={() => router.push({ pathname: '/details/[date]', params: { date: item.date } })}
             >
               <Text style={styles.dayText}>{dayName}</Text>
               <Image

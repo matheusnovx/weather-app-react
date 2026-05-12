@@ -31,7 +31,7 @@ jobs:
         run: npx jest --passWithNoTests
 
   android-build:
-    name: Build Android (Smoke Test)
+    name: Build Android
     needs: test-and-check
     runs-on: ubuntu-latest
 

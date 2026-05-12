@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, TextInput, Text, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
 import { WeatherRepository, SearchResult } from '../services/WeatherRepository';
 import { useDebounce } from '../hooks/useDebounce';
@@ -108,7 +108,7 @@ export function SearchBar() {
             data={results}
             keyExtractor={(item) => item.id.toString()}
             keyboardShouldPersistTaps="handled"
-            style={{ maxHeight: 250 }}
+            style={styles.list}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.resultItem} onPress={() => handleSelect(item)}>
                 <Text style={styles.resultName}>{item.name}</Text>
@@ -174,6 +174,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 16,
     top: 16,
+  },
+  list: {
+    maxHeight: 250,
   },
   resultsContainer: {
     position: 'absolute',
