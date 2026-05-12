@@ -27,7 +27,7 @@ EXPO_PUBLIC_WEATHER_API_KEY=sua_chave_real_aqui
 ### 3. Rodar a Aplicação
 **Para iOS (Requer Mac):**
 ```bash
-npx expo prebuild --clean # Garante que as permissões nativas de GPS sejam vinculadas
+npx expo prebuild --clean
 npm run ios
 ```
 
@@ -65,6 +65,18 @@ A aplicação foi construída visando o padrão **Clean Architecture**, onde a r
 
 ## Limitações
 
-*   **WeatherAPI Rate Limiting**: A busca dinâmica de cidades utiliza o *tier* gratuito da WeatherAPI. Digitações extremamente rápidas e excessivas podem esbarrar no *Rate Limit* (Erro 429).
-
+*   **WeatherAPI (Plano Gratuito)**: A aplicação consome a API no *tier* gratuito, o que restringe a cota mensal de consultas e a profundidade de dados de previsão. Para o risco de erros de *Rate Limit* (429) por excesso de chamadas foi utilizado o hook customizado `useDebounce` na barra de pesquisa.
+*   **Defasagem Temporária de Cache (Offline-First)**: Devido à arquitetura de persistência (React Query + AsyncStorage), o aplicativo prioriza mostrar a tela imediatamente com os últimos dados salvos no disco. Isso significa que o usuário pode ver a temperatura antiga até que o *revalidate* em *background* termine e atualize os números na tela.
 ---
+
+## Próximos Passos
+
+Abaixo estão algumas melhorias e funcionalidades planejadas para o futuro da aplicação:
+
+*   **Histórico de Pesquisas (Recent Searches)**: Armazenar as últimas cidades pesquisadas no disco (`AsyncStorage`) e sugeri-las ao usuário.
+*   **Testes End-to-End (E2E)**: Configuração de frameworks para testes end-to-end.
+*   **Aprimoramento de Rate Limit**: Implementar um sistema mais robusto de *retry* exponencial ou um *fallback* amigável caso exceda a cota da API gratuita.
+*   **Internacionalização (i18n)**: Suporte para múltiplos idiomas, permitindo que a interface e os dados da API (que já suporta queries `lang`) sejam exibidos no idioma do aparelho.
+* **Padronizacao de estilos globais**: Padronização de estilos globais, como cores, fontes, etc. Com bibliotecas como [Restyle](https://github.com/shopify/restyle).
+
+
