@@ -7,11 +7,11 @@ export function useTimeAgo(timestamp: number) {
     const updateTime = () => {
       const diffInSeconds = Math.floor((Date.now() - timestamp) / 1000);
       if (diffInSeconds < 60) {
-        setTimeAgo('Atualizado agora');
+        setTimeAgo('Updated just now');
       } else if (diffInSeconds < 3600) {
-        setTimeAgo(`Atualizado há ${Math.floor(diffInSeconds / 60)} min`);
+        setTimeAgo(`Updated ${Math.floor(diffInSeconds / 60)} min ago`);
       } else {
-        setTimeAgo(`Atualizado há ${Math.floor(diffInSeconds / 3600)} h`);
+        setTimeAgo(`Updated ${Math.floor(diffInSeconds / 3600)} h ago`);
       }
     };
 
