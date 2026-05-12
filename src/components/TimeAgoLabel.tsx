@@ -3,7 +3,7 @@ import { Text, StyleSheet } from 'react-native';
 import { useTimeAgo } from '../hooks/useTimeAgo';
 
 interface TimeAgoLabelProps {
-  timestamp?: number;
+  timestamp: number;
 }
 
 export const TimeAgoLabel = React.memo(({ timestamp }: TimeAgoLabelProps) => {

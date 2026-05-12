@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react';
 
-export function useTimeAgo(timestamp?: number) {
+export function useTimeAgo(timestamp: number) {
   const [timeAgo, setTimeAgo] = useState('');
 
   useEffect(() => {
-    if (!timestamp) {
-      setTimeAgo('');
-      return;
-    }
-
     const updateTime = () => {
       const diffInSeconds = Math.floor((Date.now() - timestamp) / 1000);
       if (diffInSeconds < 60) {

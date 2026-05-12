@@ -27,24 +27,4 @@ export class StorageService {
       console.error('Error clearing city from storage', e);
     }
   }
-
-  static async saveWeatherData(query: string, data: any): Promise<void> {
-    try {
-      const key = `@weather_cache_${query.toLowerCase()}`;
-      await AsyncStorage.setItem(key, JSON.stringify(data));
-    } catch (e) {
-      console.error('Error saving weather data to storage', e);
-    }
-  }
-
-  static async getWeatherData(query: string): Promise<any | null> {
-    try {
-      const key = `@weather_cache_${query.toLowerCase()}`;
-      const data = await AsyncStorage.getItem(key);
-      return data ? JSON.parse(data) : null;
-    } catch (e) {
-      console.error('Error reading weather data from storage', e);
-      return null;
-    }
-  }
 }
