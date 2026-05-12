@@ -55,9 +55,16 @@ A aplicação foi construída visando o padrão **Clean Architecture**, onde a r
 
 ---
 
-## Limitações e Observações
+## Dispositivos Testados
 
-*   **Aviso de Dispositivo Físico Apple**: O código foi exaustivamente testado em simuladores oficiais do iOS (Xcode). Contudo, *o aplicativo não foi submetido a testes diretos em um dispositivo físico da Apple*.
+* **Tablet Android** (Dispositivo Físico)
+* **Celular Android** (Emulador)
+* **Celular iOS / iPhone** (Simulador Xcode)
+
+---
+
+## Limitações
+
 *   **WeatherAPI Rate Limiting**: A busca dinâmica de cidades utiliza o *tier* gratuito da WeatherAPI. Digitações extremamente rápidas e excessivas podem esbarrar no *Rate Limit* (Erro 429).
 
 ---

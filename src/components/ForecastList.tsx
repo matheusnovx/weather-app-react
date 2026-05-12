@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { WeatherDay } from '../services/WeatherRepository';
+import { Ionicons } from '@expo/vector-icons';
 
 interface Props {
   forecastDays: WeatherDay[];
@@ -34,7 +35,9 @@ export function ForecastList({ forecastDays }: Props) {
                 <Text style={styles.maxTemp}>{item.day.maxtemp_c}°</Text>
                 <Text style={styles.minTemp}>{item.day.mintemp_c}°</Text>
               </View>
-              <Text style={styles.humidityText}>💧 {item.day.avghumidity}%</Text>
+              <Text style={styles.humidityText}>
+                <Ionicons name="water-outline" size={12} color="#3B82F6" /> {item.day.avghumidity}%
+              </Text>
             </TouchableOpacity>
           );
         })}

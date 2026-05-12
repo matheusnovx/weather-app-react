@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 interface Props {
   message: string;
@@ -9,7 +10,7 @@ interface Props {
 export function ErrorView({ message, onRetry }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.icon}>⚠️</Text>
+      <Ionicons name="warning-outline" size={64} color="#efe444ff" style={styles.icon} />
       <Text style={styles.title}>Oops!</Text>
       <Text style={styles.message}>{message}</Text>
       <TouchableOpacity style={styles.button} onPress={onRetry}>

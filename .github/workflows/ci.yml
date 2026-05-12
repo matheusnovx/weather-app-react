@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.x' # Versão compatível com Expo e React Native atuais
+          node-version: '18.x'
           cache: 'npm'
 
       - name: Install Dependencies
@@ -29,3 +29,34 @@ jobs:
 
       - name: Run Unit & Integration Tests
         run: npx jest --passWithNoTests
+
+  android-build:
+    name: Build Android (Smoke Test)
+    needs: test-and-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Expo Prebuild (Generate Android Dir)
+        run: npx expo prebuild -p android --clean
+
+      - name: Build Android App (Assemble Debug)
+        working-directory: ./android
+        run: ./gradlew assembleDebug

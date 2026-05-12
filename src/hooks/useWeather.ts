@@ -20,11 +20,11 @@ export function useWeather() {
           return await WeatherRepository.getForecast(query, 3);
         }
       } catch (error: any) {
-        // Fallback to a default city when permission is denied or location is unavailable
+        // Fallback to SP
         console.log('Location unavailable, falling back to default city. Error:', error.message);
         return await WeatherRepository.getForecast('São Paulo', 3);
       }
     },
-    retry: false, // Don't automatically retry on error to show error state
+    retry: false,
   });
 }

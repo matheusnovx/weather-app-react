@@ -4,6 +4,8 @@ import { WeatherRepository, SearchResult } from '../services/WeatherRepository';
 import { useDebounce } from '../hooks/useDebounce';
 import { useLocationStore } from '../store/useLocationStore';
 import { useFocusEffect } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+
 export function SearchBar() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -86,7 +88,7 @@ export function SearchBar() {
 
         {selectedCityQuery && (
           <TouchableOpacity style={styles.locationButton} onPress={clearSelectedCity} activeOpacity={0.8}>
-            <Text style={styles.locationIcon}>📍</Text>
+            <Ionicons name="location-outline" size={18} color="#EF4444" style={styles.locationIcon} />
           </TouchableOpacity>
         )}
       </View>
