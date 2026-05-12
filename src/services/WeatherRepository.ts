@@ -49,7 +49,7 @@ export interface ForecastResponse {
   forecast: {
     forecastday: WeatherDay[];
   };
-  lastUpdated?: number;
+  lastUpdated: number;
 }
 
 export interface SearchResult {
