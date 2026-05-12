@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { LineChart } from 'react-native-gifted-charts';
@@ -12,6 +12,7 @@ export default function DetailsScreen() {
   const { date } = useLocalSearchParams<{ date: string }>();
   const router = useRouter();
   const { data, isLoading, isError } = useWeather();
+  const { width: screenWidth } = useWindowDimensions();
 
   const selectedDay = useMemo(() => {
     if (!data || !date) return null;
@@ -27,7 +28,7 @@ export default function DetailsScreen() {
       return {
         value: h.temp_c,
         label: isEven ? timeString : '',
-        dataPointText: h.temp_c.toString(),
+        timeString: timeString,
       };
     });
   }, [selectedDay]);
@@ -57,6 +58,8 @@ export default function DetailsScreen() {
   const dateLocal = new Date(dateObj.getTime() + Math.abs(dateObj.getTimezoneOffset() * 60000));
   const dayName = dateLocal.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
+  const chartWidth = Math.max(screenWidth - 126, 250);
+
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ title: 'Forecast Details', headerBackTitle: 'Back' }} />
@@ -69,33 +72,63 @@ export default function DetailsScreen() {
         <View style={styles.chartContainer}>
           <MemoizedLineChart
             data={chartData}
-            width={300}
+            width={chartWidth}
             height={220}
-            spacing={40}
-            initialSpacing={10}
-            color="#3B82F6"
-            thickness={3}
-            startFillColor="rgba(59, 130, 246, 0.3)"
-            endFillColor="rgba(59, 130, 246, 0.01)"
-            startOpacity={0.9}
-            endOpacity={0.2}
+            spacing={45}
+            initialSpacing={15}
+            color="#6366F1"
+            thickness={4}
+            curved
+            areaChart
+            startFillColor="#6366F1"
+            endFillColor="#EEF2FF"
+            startOpacity={0.6}
+            endOpacity={0.05}
             noOfSections={5}
-            yAxisColor="#E2E8F0"
-            yAxisThickness={1}
-            rulesType="solid"
-            rulesColor="#F1F5F9"
-            yAxisTextStyle={{ color: '#64748B' }}
+            yAxisColor="transparent"
+            yAxisThickness={0}
+            rulesType="dashed"
+            rulesColor="#E2E8F0"
+            yAxisTextStyle={{ color: '#94A3B8', fontSize: 11 }}
             xAxisColor="#E2E8F0"
             xAxisThickness={1}
-            dataPointsColor="#2563EB"
-            dataPointsRadius={4}
-            textColor="#0F172A"
-            textFontSize={10}
-            textShiftY={-8}
-            textShiftX={-5}
+            xAxisLabelTextStyle={{ color: '#64748B', fontSize: 11 }}
+            hideDataPoints={true}
             isAnimated
             animationDuration={1200}
-            hideDataPoints={false}
+            pointerConfig={{
+              pointerStripHeight: 180,
+              pointerStripColor: '#e1cbcbff',
+              pointerStripWidth: 2,
+              pointerColor: '#6366F1',
+              radius: 6,
+              pointerLabelWidth: 80,
+              pointerLabelHeight: 60,
+              activatePointersOnLongPress: false,
+              autoAdjustPointerLabelPosition: true,
+              pointerStripUptoDataPoint: true,
+              pointerLabelComponent: (items: any) => {
+                if (!items || !items[0]) return null;
+                return (
+                  <View style={{
+                    height: 60,
+                    width: 80,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#1E293B',
+                    borderRadius: 12,
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 8,
+                    elevation: 5,
+                  }}>
+                    <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>{items[0].value}°</Text>
+                    <Text style={{ color: '#94A3B8', fontSize: 12 }}>{items[0].timeString}</Text>
+                  </View>
+                );
+              },
+            }}
           />
         </View>
 
@@ -155,7 +188,8 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     alignItems: 'center',
     width: '100%',
-    overflow: 'hidden',
+    overflow: 'visible',
+    paddingTop: 40,
   },
   summaryContainer: {
     flexDirection: 'row',
